@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+import { useDev } from '../constants'
+
 /*------------simulation data start ------- */
 const agencies = [
   {
@@ -115,7 +117,7 @@ const agencyRoutes = {
 
 /*------------simulation data end ------- */
 
-const API_URL = '/BusApp'
+const API_URL = useDev ? 'http://localhost:8080/BusApp' : '/BusApp'
 
 export const fetchAgencies = async () => {
   // return new Promise((resolve, reject) => {
@@ -123,7 +125,6 @@ export const fetchAgencies = async () => {
   //     resolve(agencies)
   //   }, 1000)
   // })
-  
   return axios
     .get(encodeURI(`${API_URL}/GetAgencies`))
     .then(response => response.data.results)
@@ -134,6 +135,12 @@ export const fetchAgencies = async () => {
 }
 
 export const fetchRoutes = async (agencyTag) => {
+  // return new Promise((resolve, reject) => {
+  //   setTimeout(() => {
+  //     resolve(agencyRoutes[*])
+  //   }, 1000)
+  // })
+
   return axios
     .get(encodeURI(`${API_URL}/GetRoutes?agencyTag=${agencyTag}`))
     .then(response => response.data.results)

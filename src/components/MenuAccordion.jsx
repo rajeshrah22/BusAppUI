@@ -14,7 +14,7 @@ import MapIcon from '@mui/icons-material/Map';
 import Avatar from '@mui/material/Avatar'
 import { useTheme } from '@emotion/react'
 
-const MenuAccordion = ({ routes }) => {
+const MenuAccordion = ({ routes, handleMapClick}) => {
   const theme = useTheme();
   
   return (
@@ -66,7 +66,17 @@ const MenuAccordion = ({ routes }) => {
                           </Avatar>
                         </ListItemAvatar>
                         <ListItemText primary={direction.title} secondary={direction.tag}></ListItemText>
-                        <IconButton>
+                        <IconButton
+                          onClick={() => {
+                            handleMapClick({
+                              "routeTag": result.route.routeTag,
+                              "direction": direction,
+                              "stopList": result.stopList,
+                              "pathArray": result.pathArray,
+                              "color": result.route.color,
+                            })
+                          }}
+                        >
                           <MapIcon />
                         </IconButton>
                       </ListItem>

@@ -73,7 +73,7 @@ const inputGlobalStyles = (
 />
 )
 
-const Menu = ({ agencies, loading, setLoading }) => {
+const Menu = ({ agencies, loading, setLoading, handleMapClick, setDirectionState, directionState }) => {
   const [open, setOpen] = useState(true)
   const [showAgencies, setShowAgencies] = useState({showAgencies: true, agencyTag: null})
   const [routes, setRoutes] = useState(null)
@@ -97,6 +97,7 @@ const Menu = ({ agencies, loading, setLoading }) => {
     }
 
     setShowAgencies({...showAgencies, showAgencies: true})
+    setDirectionState({...directionState, showDirection: false})
   }
 
   //prop constants
@@ -181,7 +182,10 @@ const Menu = ({ agencies, loading, setLoading }) => {
                     </>
                   ) : (
                     <>
-                      <MenuAccordion routes={routes} />
+                      <MenuAccordion
+                        routes={routes}
+                        handleMapClick={handleMapClick}
+                      />
                     </>
                   )}
                 </>
