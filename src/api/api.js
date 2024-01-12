@@ -4,39 +4,75 @@ import axios from 'axios'
 const agencies = [
   {
     "tag": "yessir",
-    "regionTitle": "Westborough"
+    "regionTitle": "Westborough",
+    "location": {
+      "lat": 42.269,
+      "lng": -71.616,
+    }
   },
   {
     "tag": "yeah",
-    "regionTitle": "New York"
+    "regionTitle": "New York",
+    "location": {
+      "lat": 40.714,
+      "lng": -74.005,
+    }
   },
   {
     "tag": "Malborough",
-    "regionTitle": "Manchester"
+    "regionTitle": "Manchester",
+    "location": {
+      "lat": 53.480,
+      "lng": -2.242,
+    }
   },
   {
     "tag": "yessir",
-    "regionTitle": "Westborough"
+    "regionTitle": "Westborough",
+    "location": {
+      "lat": 42.269,
+      "lng": -71.616,
+    }
   },
   {
     "tag": "yeah",
-    "regionTitle": "New York"
+    "regionTitle": "New York",
+    "location": {
+      "lat": 40.714,
+      "lng": -74.005,
+    }
   },
   {
     "tag": "Malborough",
-    "regionTitle": "Manchester"
+    "regionTitle": "Manchester",
+    "location": {
+      "lat": 53.480,
+      "lng": -2.242,
+    }
   },
   {
     "tag": "yessir",
-    "regionTitle": "Westborough"
+    "regionTitle": "Westborough",
+    "location": {
+      "lat": 42.269,
+      "lng": -71.616,
+    }
   },
   {
     "tag": "yeah",
-    "regionTitle": "New York"
+    "regionTitle": "New York",
+    "location": {
+      "lat": 40.714,
+      "lng": -74.005,
+    }
   },
   {
     "tag": "Malborough",
-    "regionTitle": "Manchester"
+    "regionTitle": "Manchester",
+    "location": {
+      "lat": 53.480,
+      "lng": -2.242,
+    }
   },
 ]
 
@@ -82,6 +118,12 @@ const agencyRoutes = {
 const API_URL = '/BusApp'
 
 export const fetchAgencies = async () => {
+  // return new Promise((resolve, reject) => {
+  //   setTimeout(() => {
+  //     resolve(agencies)
+  //   }, 1000)
+  // })
+  
   return axios
     .get(encodeURI(`${API_URL}/GetAgencies`))
     .then(response => response.data.results)

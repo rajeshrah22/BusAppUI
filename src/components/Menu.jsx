@@ -73,21 +73,10 @@ const inputGlobalStyles = (
 />
 )
 
-const Menu = () => {
-  const [open, setOpen] = React.useState(true)
+const Menu = ({ agencies, loading, setLoading }) => {
+  const [open, setOpen] = useState(true)
   const [showAgencies, setShowAgencies] = useState({showAgencies: true, agencyTag: null})
-  const [agencies, setAgencies] = useState(null)
   const [routes, setRoutes] = useState(null)
-  const [loading, setLoading] = useState(true)
-
-
-  useEffect(() => {
-      fetchAgencies().then((agencies) => {
-        setAgencies(agencies)
-        setLoading(false)
-      })
-  }, []);
-
 
   const toggleDrawer = (open) => {
     setOpen(open)
@@ -162,36 +151,42 @@ const Menu = () => {
               overflow: 'auto',
             }}
           >
-            {loading ? (
-              <>
-                {[...Array(8)].map((item, index) => {
-                  return (
-                    <Skeleton
-                      key={index}
-                      variant="rectangular"
-                      width="100%"
-                      height={70}
-                      sx={{
-                        borderRadius: 1,
-                        my: 1,
-                      }}
-                    />
-                  );
-                })}
-              </>
-            ) : (
-              <>
-                {showAgencies.showAgencies ? (
-                  <>
-                    <MenuList list={agencies} handleClick={handleAgencyClick} />
-                  </>
-                ) : (
-                  <>
-                    <MenuAccordion routes={routes} />
-                  </>
-                )}
-              </>
-            )}
+            {
+              loading 
+              ? 
+              (
+                <>
+                  {[...Array(8)].map((item, index) => {
+                    return (
+                      <Skeleton
+                        key={index}
+                        variant="rectangular"
+                        width="100%"
+                        height={70}
+                        sx={{
+                          borderRadius: 1,
+                          my: 1,
+                        }}
+                      />
+                    );
+                  })}
+                </>
+              )
+              : 
+              (
+                <>
+                  {showAgencies.showAgencies ? (
+                    <>
+                      <MenuList list={agencies} handleClick={handleAgencyClick} />
+                    </>
+                  ) : (
+                    <>
+                      <MenuAccordion routes={routes} />
+                    </>
+                  )}
+                </>
+              )
+            }
           </Box>
           <BottomNavigation handleBackNavigation={handleBackNavigation}/>
         </Box>

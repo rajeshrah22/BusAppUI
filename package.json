@@ -16,6 +16,7 @@
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.15.3",
     "@mui/material": "^5.15.3",
+    "@vis.gl/react-google-maps": "^0.4.2",
     "axios": "^1.6.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
