@@ -1,27 +1,21 @@
 //React
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 //react-visgl-maps
 import { useMap } from '@vis.gl/react-google-maps'
 import { CENTER, ZOOM } from '../constants'
 
 //MUI
-import { styled } from '@mui/material/styles'
-import { grey } from '@mui/material/colors'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/SwipeableDrawer'
 import Skeleton from '@mui/material/Skeleton'
 import DragHandleIcon from '@mui/icons-material/DragHandle'
-import ListItemButton from '@mui/material/ListItemButton'
-import ImageIcon from '@mui/icons-material/Image'
 import { useTheme } from '@emotion/react'
-import BusIcon from '@mui/icons-material/DirectionsBus'
 import { GlobalStyles } from '@mui/material'
 import { SearchBox } from './SearchBox'
 import MenuList from './MenuList'
 import MenuAccordion from './menuAccordion'
 import BottomNavigation from './BottomNavigation'
-import { fetchAgencies, fetchRoutes } from '../api/api'
 import { HeadingCard } from './HeadingCard'
 
 const routes = [
@@ -77,25 +71,8 @@ const inputGlobalStyles = (
 />
 )
 
-const Menu = ({ agencies, loading, setLoading, handleMapClick, setDirectionState, directionState, eraseLines }) => {
-  const [open, setOpen] = useState(true)
-  const [showAgencies, setShowAgencies] = useState({showAgencies: true, agencyTag: null})
-  const [routes, setRoutes] = useState(null)
-
+const Menu = ({ open, handleAgencyClick, showAgencies, setShowAgencies, toggleDrawer, agencies, routes, loading, handleMapClick, setDirectionState, directionState, eraseLines }) => {
   const map = useMap()
-
-  const toggleDrawer = (open) => {
-    setOpen(open)
-  }
-
-  const handleAgencyClick = (agencyTag) => {
-    setLoading(true)
-    fetchRoutes(agencyTag).then((routes) => {
-      setRoutes(routes)
-      setLoading(false)
-    })
-    setShowAgencies({...showAgencies,showAgencies: false, agencyTag: agencyTag})
-  }
 
   const handleBackNavigation = () => {
     if (showAgencies.showAgencies) {
@@ -196,6 +173,7 @@ const Menu = ({ agencies, loading, setLoading, handleMapClick, setDirectionState
                       <MenuAccordion
                         routes={routes}
                         handleMapClick={handleMapClick}
+                        toggleDrawer={toggleDrawer}
                       />
                     </>
                   )}

@@ -9,7 +9,7 @@ import { Map, Marker, useMap, useMapsLibrary } from '@vis.gl/react-google-maps'
 
 //local
 import Menu from './components/Menu'
-import { fetchAgencies } from './api/api'
+import { fetchAgencies, fetchRoutes } from './api/api'
 import { CENTER, ZOOM } from './constants'
 
 
@@ -17,6 +17,22 @@ function App() {
   const [agencies, setAgencies] = useState([])
   const [isMenuloading, setIsMenuLoading] = useState(true)
   const [directionState, setDirectionState] = useState({ direction: null, stopList: [], pathArray: [], showDirection: false, color: undefined })
+  const [open, setOpen] = useState(true)
+  const [showAgencies, setShowAgencies] = useState({showAgencies: true, agencyTag: null})
+  const [routes, setRoutes] = useState(null)
+
+  const toggleDrawer = (open) => {
+    setOpen(open)
+  }
+
+  const handleAgencyClick = (agencyTag) => {
+    setIsMenuLoading(true)
+    fetchRoutes(agencyTag).then((routes) => {
+      setRoutes(routes)
+      setIsMenuLoading(false)
+    })
+    setShowAgencies({...showAgencies,showAgencies: false, agencyTag: agencyTag})
+  }
 
   const mapsLibrary = useMapsLibrary('maps')
   const map = useMap()
@@ -82,7 +98,7 @@ function App() {
   
 
   //when map clicked, plot stops(direction state change renders new stops), draw line, change camera
-  const handleMapClick = ({routeTag, direction, stopList, pathArray, color }) => {
+  const handleMapClick = ({ direction, stopList, pathArray, color }) => {
     const newDirectionState = {
       ...directionState,
       direction: direction,
@@ -92,6 +108,8 @@ function App() {
       color: color,
     }
     
+    toggleDrawer(false)
+
     setDirectionState(newDirectionState)
 
     drawLines(newDirectionState, map)
@@ -99,6 +117,7 @@ function App() {
     //changes camer to zoom in on the route
     map.fitBounds(findBounds(stopList), 5)
   }
+  
 
   return (
     <Box sx={{
@@ -145,6 +164,10 @@ function App() {
         }
       </Map>
       <Menu
+        setShowAgencies={setShowAgencies}
+        showAgencies={showAgencies}
+        handleAgencyClick={handleAgencyClick}
+        toggleDrawer={toggleDrawer}
         agencies={agencies}
         setAgencies={setAgencies}
         loading={isMenuloading}
@@ -153,6 +176,8 @@ function App() {
         setDirectionState={setDirectionState}
         directionState={directionState}
         eraseLines={eraseLines}
+        routes={routes}
+        open={open}
       />
     </Box>
   )

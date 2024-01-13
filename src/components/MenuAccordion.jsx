@@ -14,7 +14,7 @@ import MapIcon from '@mui/icons-material/Map';
 import Avatar from '@mui/material/Avatar'
 import { useTheme } from '@emotion/react'
 
-const MenuAccordion = ({ routes, handleMapClick}) => {
+const MenuAccordion = ({ routes, handleMapClick, toggleDrawer }) => {
   const theme = useTheme();
   
   return (
