@@ -29,6 +29,7 @@ function App() {
     setIsMenuLoading(true)
     toggleDrawer(true)
     fetchRoutes(agencyTag).then((routes) => {
+      console.log(routes)
       setRoutes(routes)
       setIsMenuLoading(false)
     })
@@ -53,8 +54,8 @@ function App() {
         path: path.pointArray,
         geodesic: true,
         strokeColor: directionState.color,
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
+        strokeOpacity: 0.5,
+        strokeWeight: 5,
       })
 
       Polyline.setMap(map)
