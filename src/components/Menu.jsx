@@ -1,6 +1,10 @@
 //React
 import React, { useState, useEffect } from 'react'
 
+//react-visgl-maps
+import { useMap } from '@vis.gl/react-google-maps'
+import { CENTER, ZOOM } from '../constants'
+
 //MUI
 import { styled } from '@mui/material/styles'
 import { grey } from '@mui/material/colors'
@@ -73,10 +77,12 @@ const inputGlobalStyles = (
 />
 )
 
-const Menu = ({ agencies, loading, setLoading, handleMapClick, setDirectionState, directionState}) => {
+const Menu = ({ agencies, loading, setLoading, handleMapClick, setDirectionState, directionState, eraseLines }) => {
   const [open, setOpen] = useState(true)
   const [showAgencies, setShowAgencies] = useState({showAgencies: true, agencyTag: null})
   const [routes, setRoutes] = useState(null)
+
+  const map = useMap()
 
   const toggleDrawer = (open) => {
     setOpen(open)
@@ -98,6 +104,11 @@ const Menu = ({ agencies, loading, setLoading, handleMapClick, setDirectionState
 
     setShowAgencies({...showAgencies, showAgencies: true})
     setDirectionState({...directionState, showDirection: false})
+
+    map.setCenter(CENTER)
+    map.setZoom(ZOOM)
+    
+    eraseLines();
   }
 
   //prop constants

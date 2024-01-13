@@ -10,6 +10,7 @@ import { Map, Marker, useMap, useMapsLibrary } from '@vis.gl/react-google-maps'
 //local
 import Menu from './components/Menu'
 import { fetchAgencies } from './api/api'
+import { CENTER, ZOOM } from './constants'
 
 
 function App() {
@@ -20,19 +21,16 @@ function App() {
   const mapsLibrary = useMapsLibrary('maps')
   const map = useMap()
 
+  const polylinesRef = useRef([])
+
   useEffect(() => {
-    console.log("fetching agencies")
     fetchAgencies().then((agencies) => {
-      console.log("recieved agencies")
       setAgencies(agencies)
       setIsMenuLoading(false)
     })
   }, [])
 
-  const drawLine = (directionState) => {
-
-    console.log(directionState.pathArray)
-
+  const drawLines = (directionState) => {
     directionState.pathArray.forEach((path) => {
       const Polyline = new mapsLibrary.Polyline({
         path: path.pointArray,
@@ -43,7 +41,17 @@ function App() {
       })
 
       Polyline.setMap(map)
+
+      polylinesRef.current.push(Polyline)
     })
+  }
+
+  const eraseLines = () => {
+    polylinesRef.current.forEach((polyline) => {
+      polyline.setMap(null)
+    })
+
+    polylinesRef.current = []
   }
 
   const findBounds = (stopList) => {
@@ -86,7 +94,7 @@ function App() {
     
     setDirectionState(newDirectionState)
 
-    drawLine(newDirectionState, map)
+    drawLines(newDirectionState, map)
 
     //changes camer to zoom in on the route
     map.fitBounds(findBounds(stopList), 5)
@@ -99,8 +107,8 @@ function App() {
       width: '100vw',
     }}>
       <Map
-        zoom={3}
-        center={{lat: 38.79, lng: -95.73}}
+        zoom={ZOOM}
+        center={CENTER}
         gestureHandling={'greedy'}
         disableDefaultUI={true}
       >
@@ -144,6 +152,7 @@ function App() {
         handleMapClick={handleMapClick}
         setDirectionState={setDirectionState}
         directionState={directionState}
+        eraseLines={eraseLines}
       />
     </Box>
   )
