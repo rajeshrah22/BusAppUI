@@ -27,6 +27,7 @@ function App() {
 
   const handleAgencyClick = (agencyTag) => {
     setIsMenuLoading(true)
+    toggleDrawer(true)
     fetchRoutes(agencyTag).then((routes) => {
       setRoutes(routes)
       setIsMenuLoading(false)
@@ -141,7 +142,7 @@ function App() {
                 position={{lat: agency.location.lat, lng: agency.location.lng}}
                 clickable={true}
                 onClick={() => {
-                  console.log(agency)
+                  handleAgencyClick(agency.tag)
                 }}
                 title={agency.title}
               />
