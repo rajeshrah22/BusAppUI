@@ -29,33 +29,67 @@ function App() {
     })
   }, [])
 
-  const plotDirection = (directionState, map) => {
-    const Polyline = new mapsLibrary.Polyline({
-      path: directionState.pathArray,
-      geodesic: true,
-      strokeColor: directionState.color,
-      strokeOpacity: 1.0,
-      strokeWeight: 2,
+  const drawLine = (directionState) => {
+
+    console.log(directionState.pathArray)
+
+    directionState.pathArray.forEach((path) => {
+      const Polyline = new mapsLibrary.Polyline({
+        path: path.pointArray,
+        geodesic: true,
+        strokeColor: directionState.color,
+        strokeOpacity: 1.0,
+        strokeWeight: 2,
+      })
+
+      Polyline.setMap(map)
     })
-  
-    Polyline.setMap(map)
+  }
+
+  const findBounds = (stopList) => {
+    let bounds = {
+      north: -90,  //initial max of lattitude
+      south: 90,  //initial min of lattitude
+      east: -180,   //initial max of longitude
+      west: 180,   //initial min of longitude
+    }
+    
+    for (let stop of stopList) {
+      if (stop.lat > bounds.north) {
+        bounds.north = stop.lat
+      }
+      if (stop.lat < bounds.south) {
+        bounds.south = stop.lat
+      }
+      if (stop.lng > bounds.east) {
+        bounds.east = stop.lng
+      }
+      if (stop.lng < bounds.west) {
+        bounds.west = stop.lng
+      }
+    }
+    
+    return bounds;	
   }
   
 
-  //stopList contains the list of objects with stop tags,titles, and locations
-  //direction contains direction tag, title and stopList
-  //pathArray contains objects that contain the pathID, pointArray with list of coordinates(lat, lng)
+  //when map clicked, plot stops(direction state change renders new stops), draw line, change camera
   const handleMapClick = ({routeTag, direction, stopList, pathArray, color }) => {
-    setDirectionState({
+    const newDirectionState = {
       ...directionState,
       direction: direction,
       stopList: stopList,
       pathArray: pathArray,
       showDirection: true, //only non parametric value
       color: color,
-    })
+    }
+    
+    setDirectionState(newDirectionState)
 
-    plotDirection(directionState, map);
+    drawLine(newDirectionState, map)
+
+    //changes camer to zoom in on the route
+    map.fitBounds(findBounds(stopList), 5)
   }
 
   return (
@@ -66,7 +100,7 @@ function App() {
     }}>
       <Map
         zoom={3}
-        center={{lat: 22.54992, lng: 0}}
+        center={{lat: 38.79, lng: -95.73}}
         gestureHandling={'greedy'}
         disableDefaultUI={true}
       >

@@ -73,7 +73,7 @@ const inputGlobalStyles = (
 />
 )
 
-const Menu = ({ agencies, loading, setLoading, handleMapClick, setDirectionState, directionState }) => {
+const Menu = ({ agencies, loading, setLoading, handleMapClick, setDirectionState, directionState}) => {
   const [open, setOpen] = useState(true)
   const [showAgencies, setShowAgencies] = useState({showAgencies: true, agencyTag: null})
   const [routes, setRoutes] = useState(null)
