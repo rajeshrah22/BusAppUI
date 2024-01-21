@@ -118,6 +118,7 @@ const agencyRoutes = {
 /*------------simulation data end ------- */
 
 const API_URL = useDev ? 'http://localhost:8080/BusApp' : '/BusApp'
+console.log(useDev)
 
 export const fetchAgencies = async () => {
   // return new Promise((resolve, reject) => {
@@ -125,6 +126,7 @@ export const fetchAgencies = async () => {
   //     resolve(agencies)
   //   }, 1000)
   // })
+  console.log('fetching agencies')
   return axios
     .get(encodeURI(`${API_URL}/GetAgencies`))
     .then(response => response.data.results)
@@ -140,7 +142,7 @@ export const fetchRoutes = async (agencyTag) => {
   //     resolve(agencyRoutes[*])
   //   }, 1000)
   // })
-
+  console.log('fetching routes')
   return axios
     .get(encodeURI(`${API_URL}/GetRoutes?agencyTag=${agencyTag}`))
     .then(response => response.data.results)

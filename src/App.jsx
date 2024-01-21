@@ -29,7 +29,6 @@ function App() {
     setIsMenuLoading(true)
     toggleDrawer(true)
     fetchRoutes(agencyTag).then((routes) => {
-      console.log(routes)
       setRoutes(routes)
       setIsMenuLoading(false)
     })
